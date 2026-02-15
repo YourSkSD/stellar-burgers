@@ -1,6 +1,6 @@
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
-import { LoginUI } from '@ui-pages';
 
+import { LoginUI } from '@ui-pages';
 import { useDispatch, useSelector } from '../../services/store';
 import {
   isAuthenticatedSelector,
@@ -23,12 +23,12 @@ export const Login: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-  };
 
-  if (!email || !password) {
-    return;
-  }
-  dispatch(loginUser({ email, password }));
+    if (!email || !password) {
+      return;
+    }
+    dispatch(loginUser({ email, password }));
+  };
 
   return (
     <LoginUI
