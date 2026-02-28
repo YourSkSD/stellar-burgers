@@ -24,7 +24,31 @@ describe('Конструктор бургера', () => {
         cy.contains('Добавить').click();
       });
 
-    cy.get('[class*=elements]').should('contain.text', 'Котлета премиум');
+    cy.get('[data-cy="constructor-elements"]').should(
+      'contain.text',
+      'Котлета премиум'
+    );
+  });
+
+  it('добавляет булку в конструктор — их должно быть две', () => {
+    cy.visit('/');
+    cy.wait('@getIngredients');
+
+    // Находим булку и добавляем её
+    cy.contains('li', 'Булка традиционная')
+      .should('exist')
+      .within(() => {
+        cy.contains('button', 'Добавить').click();
+      });
+
+    cy.get('[data-cy="constructor-bun-top"]').should(
+      'contain.text',
+      'Булка традиционная'
+    );
+    cy.get('[data-cy="constructor-bun-bottom"]').should(
+      'contain.text',
+      'Булка традиционная'
+    );
   });
 
   it('открывает и закрывает модалку ингредиента и показывает его данные', () => {
@@ -33,12 +57,12 @@ describe('Конструктор бургера', () => {
 
     cy.contains('Котлета премиум').click();
 
-    cy.get('[class*=modal]').as('modal');
+    cy.get('[data-cy="modal"]').as('modal');
     cy.get('@modal').should('contain.text', 'Детали ингредиента');
 
     cy.get('@modal').should('contain.text', 'Котлета премиум');
 
-    cy.get('@modal').find('button').first().click();
+    cy.get('@modal').find('[data-cy="modal-close"]').click();
     cy.get('@modal').should('not.exist');
   });
 
@@ -73,11 +97,14 @@ describe('Конструктор бургера', () => {
 
     cy.wait('@createOrder');
 
-    cy.get('[class*=modal]').should('contain.text', '424242');
+    cy.get('[data-cy="modal"]').should('contain.text', '424242');
 
-    cy.get('[class*=elements]').should('not.contain.text', 'Котлета премиум');
+    cy.get('[data-cy="constructor-elements"]').should(
+      'not.contain.text',
+      'Котлета премиум'
+    );
 
-    cy.get('[class*=overlay]').click({ force: true });
-    cy.get('[class*=modal]').should('not.exist');
+    cy.get('[data-cy="modal-overlay"]').click({ force: true });
+    cy.get('[data-cy="modal"]').should('not.exist');
   });
 });
