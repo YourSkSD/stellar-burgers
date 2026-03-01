@@ -127,7 +127,7 @@ describe('burgerSlice', () => {
     // Очищаем конструктор
     const state = burgerSlice.reducer(withAll, clearIngredients());
 
-    // Проверяем, что всё очистилось
+    // Проверяем, что всё очистилось/
     expect(state.constructorItems.bun).toBeNull();
     expect(state.constructorItems.ingredients).toHaveLength(0);
   });
